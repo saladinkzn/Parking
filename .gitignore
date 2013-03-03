@@ -1,14 +1,13 @@
-<<<<<<< HEAD
 # ignore built classes
 war/WEB-INF/appengine-generated/
 war/WEB-INF/classes/
 # ignore eclipse settings
 .settings/
-=======
+# ignore classes
 *.class
 
 # Package Files #
 *.jar
 *.war
 *.ear
->>>>>>> 613949bda5961252a79ff52c58d1e9efb1328cbb
+

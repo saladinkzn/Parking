@@ -13,8 +13,10 @@
 	<h2>Парковки.</h2>
 	<table>
 		<tbody>
+			<%-- Здесь мы получаем список парковок, добавленных в контроллере методом request.setAttribute("parkings", ..) --%>
 			<c:forEach var="parking" items="${parkings}">
 			<tr>
+				<%-- parking.id аналогично <%=parking.getId()%> Т.е. берем значение поля id ч/з геттер и подставляем. --%>
 				<td>${parking.id}</td>
 				<td>${parking.name}</td>
 			</tr>
