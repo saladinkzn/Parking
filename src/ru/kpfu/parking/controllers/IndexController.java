@@ -47,17 +47,18 @@ public class IndexController {
 	
 	
 	/**
-	 * Мето обработчик формы
+	 * Метод-обработчик формы
 	 * @RequestMapping:
 	 * 	value - /add - значит что данный метод обрабатывает запрос по адресу /add
 	 * 
-	 * @param name - тк этот параметр помечен аннотацией @RequestParam, то в него будет передано значение из поля name формы
+	 * @param address - тк этот параметр помечен аннотацией @RequestParam, то в него будет передано значение из поля name формы
 	 * @return строка - название view без расширения.
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addNewParking(@RequestParam("name") String name) {
+	public String addNewParking(@RequestParam("address") String address, 
+			@RequestParam(value = "longitude") double longitude, @RequestParam("latitude") double latitude) {
 		// Создаем новую парковку
-		Parking parking = new Parking(name);
+		Parking parking = new Parking(address, latitude, longitude);
 		// Сохраняем парковку
 		parkingRepository.save(parking);
 		// Отображаем страницу успеха.

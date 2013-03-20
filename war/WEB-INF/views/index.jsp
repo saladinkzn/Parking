@@ -12,6 +12,14 @@
 <body>
 	<h2>Парковки.</h2>
 	<table>
+		<thead>
+			<tr>
+				<th>Идентификатор</th>
+				<th>Название</th>
+				<th>Широта</th>
+				<th>Долгота</th>
+			</tr>
+		</thead>
 		<tbody>
 			<%-- Здесь мы получаем список парковок, добавленных в контроллере методом request.setAttribute("parkings", ..) --%>
 			<c:forEach var="parking" items="${parkings}">
@@ -19,13 +27,27 @@
 				<%-- parking.id аналогично <%=parking.getId()%> Т.е. берем значение поля id ч/з геттер и подставляем. --%>
 				<td>${parking.id}</td>
 				<td>${parking.name}</td>
+				<td>${parking.latitude}</td>
+				<td>${parking.longitude}</td>
 			</tr>
 			</c:forEach>
 		</tbody>
 	</table>
+	<hr>
 	<form action="/add"  method="post">
+		<h3>Добавление парковки</h3>
+		<p>
 		<input type="text" name="name" placeholder="Введите название парковки.">
+		</p>
+		<p>
+		<input type="text" name="latitude" placeholder="Введите широту.">
+		</p>
+		<p>
+		<input type="text" name="longitude" placeholder="Введите долготу.">
+		</p>
+		<p>
 		<input type="submit" value="Добавить парковку">
+		</p>
 	</form>
 </body>
 </html>
