@@ -16,47 +16,52 @@ import ru.kpfu.parking.repositories.ParkingRepository;
 /**
  * Класс - пример контроллера.
  * 
- * Обратите внимание:
- * 1. @Controller - говорит Spring Framework, что данный класс является контроллером.
+ * Обратите внимание: 1. @Controller - говорит Spring Framework, что данный
+ * класс является контроллером.
+ * 
  * @author Timur
- *
+ * 
  */
 @Controller
 public class IndexController {
 	/**
-	 * @Autowired - вставляет ParkingRepository в данный контроллер. 
+	 * @Autowired - вставляет ParkingRepository в данный контроллер.
 	 */
 	@Autowired
 	ParkingRepository parkingRepository;
-	
+
 	/**
 	 * Метод-обработчик запроса по адресу /
 	 * 
-	 * @param request объект, служащий для передачи данных между контроллером и всью
+	 * @param request
+	 *            объект, служащий для передачи данных между контроллером и всью
 	 * @return строка - название view без расширения.
 	 */
 	@RequestMapping("/")
 	public String index(HttpServletRequest request) {
 		// Получаем список парковок
-		final List<Parking> allParkings = parkingRepository.getAll();
+		final List<Parking> allParkings = parkingRepository.getAllModerated();
 		// Передаем его на view.
 		request.setAttribute("parkings", allParkings);
 		// Передаем управление на index.jsp
 		return "index";
 	}
-	
-	
+
 	/**
 	 * Метод-обработчик формы
-	 * @RequestMapping:
-	 * 	value - /add - значит что данный метод обрабатывает запрос по адресу /add
 	 * 
-	 * @param address - тк этот параметр помечен аннотацией @RequestParam, то в него будет передано значение из поля name формы
+	 * @RequestMapping: value - /add - значит что данный метод обрабатывает
+	 *                  запрос по адресу /add
+	 * 
+	 * @param address
+	 *            - тк этот параметр помечен аннотацией @RequestParam, то в него
+	 *            будет передано значение из поля name формы
 	 * @return строка - название view без расширения.
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addNewParking(@RequestParam("address") String address, 
-			@RequestParam(value = "longitude") double longitude, @RequestParam("latitude") double latitude) {
+	public String addNewParking(@RequestParam("address") String address,
+			@RequestParam(value = "longitude") double longitude,
+			@RequestParam("latitude") double latitude) {
 		// Создаем новую парковку
 		Parking parking = new Parking(address, latitude, longitude);
 		// Сохраняем парковку
