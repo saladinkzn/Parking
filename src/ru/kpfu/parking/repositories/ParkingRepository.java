@@ -75,6 +75,24 @@ public class ParkingRepository {
 	public List<Parking> getAllNotModerated() {
 		return getParkings(true);
 	}
+	
+	public void setModerated(Parking parking) {
+		final EntityManager entityManager = createEntityManager();
+		try {
+			parking.setModerated(true);
+		} finally {
+			entityManager.close();
+		}
+	}
+	
+	public void deleteParking(Parking parking) {
+		final EntityManager entityManager = createEntityManager();
+		try {
+			entityManager.remove(parking);
+		} finally {
+			entityManager.close();
+		}
+	}
 
 
 	/**

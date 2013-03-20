@@ -238,5 +238,10 @@ public class Parking {
 		return true;
 	}
 
+
+	public void setModerated(boolean b) {
+		this.moderated = true;
+	}
+
 	
 }
