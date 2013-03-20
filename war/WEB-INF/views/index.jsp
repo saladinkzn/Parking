@@ -16,8 +16,12 @@
 			<tr>
 				<th>Идентификатор</th>
 				<th>Название</th>
+				<th>Адрес</th>
 				<th>Широта</th>
 				<th>Долгота</th>
+				<th>Режим работы</th>
+				<th>Стоимость за час</th>
+				<th>Описание</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -27,8 +31,12 @@
 				<%-- parking.id аналогично <%=parking.getId()%> Т.е. берем значение поля id ч/з геттер и подставляем. --%>
 				<td>${parking.id}</td>
 				<td>${parking.name}</td>
+				<td>${parking.address}</td>
 				<td>${parking.latitude}</td>
 				<td>${parking.longitude}</td>
+				<td>${parking.workingPlan}</td>
+				<td>${parking.pricing}</td>
+				<td>${parking.description}</td>
 			</tr>
 			</c:forEach>
 		</tbody>
@@ -37,7 +45,7 @@
 	<form action="/add"  method="post">
 		<h3>Добавление парковки</h3>
 		<p>
-		<input type="text" name="name" placeholder="Введите название парковки.">
+		<input type="text" name="address" placeholder="Введите адрес парковки.">
 		</p>
 		<p>
 		<input type="text" name="latitude" placeholder="Введите широту.">
