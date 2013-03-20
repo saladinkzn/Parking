@@ -51,6 +51,30 @@ public class ParkingRepository {
 			entityManager.close();
 		}
 	}
+	
+	/**
+	 * Метод получает все парковки, прошедшие модерацию
+	 * 
+	 */
+	public List<Parking> getAllModerated() {
+		return getParkings(true);
+	}
+
+	private List<Parking> getParkings(boolean moderated) {
+		final EntityManager entityManager = createEntityManager();
+		try {
+			final TypedQuery<Parking> selectAllModerated = entityManager.createQuery("select p from Parking p where p.moderated = :moderated", Parking.class);
+			
+			selectAllModerated.setParameter("moderated", moderated);
+			return selectAllModerated.getResultList();
+		} finally {
+			entityManager.close();
+		}
+	}
+	
+	public List<Parking> getAllNotModerated() {
+		return getParkings(true);
+	}
 
 
 	/**
