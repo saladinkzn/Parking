@@ -34,7 +34,7 @@ public class IndexController {
 	 * Метод-обработчик запроса по адресу /
 	 * 
 	 * @param request
-	 *            объект, служащий для передачи данных между контроллером и всью
+	 *            объект, служащий для передачи данных между контроллером и вью
 	 * @return строка - название view без расширения.
 	 */
 	@RequestMapping("/")
@@ -58,12 +58,28 @@ public class IndexController {
 	 *            будет передано значение из поля name формы
 	 * @return строка - название view без расширения.
 	 */
+	
+	@RequestMapping("/add")
+	public String addParking()
+	{
+		return "add";
+	}
+	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addNewParking(@RequestParam("address") String address,
+	public String addNewParking(
+			@RequestParam("name") String name,
+			@RequestParam("address") String address,
 			@RequestParam(value = "longitude") double longitude,
-			@RequestParam("latitude") double latitude) {
+			@RequestParam("latitude") double latitude,
+			@RequestParam("workingPlan") String workingPlan,
+			@RequestParam("pricing") double pricing,
+			@RequestParam("description") String description) {
 		// Создаем новую парковку
 		Parking parking = new Parking(address, latitude, longitude);
+		parking.setName(name);
+		parking.setWorkingPlan(workingPlan);
+		parking.setPricing(pricing);
+		parking.setDescription(description);
 		// Сохраняем парковку
 		parkingRepository.save(parking);
 		// Отображаем страницу успеха.

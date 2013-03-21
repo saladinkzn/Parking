@@ -42,20 +42,6 @@
 		</tbody>
 	</table>
 	<hr>
-	<form action="/add"  method="post">
-		<h3>Добавление парковки</h3>
-		<p>
-		<input type="text" name="address" placeholder="Введите адрес парковки.">
-		</p>
-		<p>
-		<input type="text" name="latitude" placeholder="Введите широту.">
-		</p>
-		<p>
-		<input type="text" name="longitude" placeholder="Введите долготу.">
-		</p>
-		<p>
-		<input type="submit" value="Добавить парковку">
-		</p>
-	</form>
+	<a href="/add"> Добавить новую парковку </a>
 </body>
 </html>
