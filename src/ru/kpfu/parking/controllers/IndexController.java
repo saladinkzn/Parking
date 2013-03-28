@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+
 import ru.kpfu.parking.entities.Parking;
 import ru.kpfu.parking.repositories.ParkingRepository;
 
@@ -60,9 +63,16 @@ public class IndexController {
 	 */
 	
 	@RequestMapping("/add")
-	public String addParking()
+	public String addParking(HttpServletRequest request)
 	{
-		return "add";
+		if(request.getUserPrincipal() != null)
+		{
+			return "add";
+		}
+		else {
+			 UserService userService = UserServiceFactory.getUserService();
+			 return "redirect:" +(userService.createLoginURL("/add"));
+		} 
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
