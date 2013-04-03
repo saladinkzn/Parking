@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -61,23 +62,19 @@ public class IndexController {
 	 *            будет передано значение из поля name формы
 	 * @return строка - название view без расширения.
 	 */
-	
+
 	@RequestMapping("/add")
-	public String addParking(HttpServletRequest request)
-	{
-		if(request.getUserPrincipal() != null)
-		{
+	public String addParking(HttpServletRequest request) {
+		if (request.getUserPrincipal() != null) {
 			return "add";
+		} else {
+			UserService userService = UserServiceFactory.getUserService();
+			return "redirect:" + (userService.createLoginURL("/add"));
 		}
-		else {
-			 UserService userService = UserServiceFactory.getUserService();
-			 return "redirect:" +(userService.createLoginURL("/add"));
-		} 
 	}
-	
+
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addNewParking(
-			@RequestParam("name") String name,
+	public String addNewParking(@RequestParam("name") String name,
 			@RequestParam("address") String address,
 			@RequestParam(value = "longitude") double longitude,
 			@RequestParam("latitude") double latitude,
@@ -94,5 +91,36 @@ public class IndexController {
 		parkingRepository.save(parking);
 		// Отображаем страницу успеха.
 		return "success";
+	}
+
+	/**
+	 * Получение маркеров,прошедших модерацию
+	 * 
+	 * @return json с инфой для отображения
+	 */
+	@RequestMapping(value = "/markers")
+	@ResponseBody
+	public String getMarkers() {
+		StringBuilder stringBuilder = new StringBuilder();
+		List<Parking> allParkParkingings = parkingRepository.getAllModerated();
+		stringBuilder.append("[");
+		for (int i = 0; i < allParkParkingings.size(); i++) {
+			Parking parking = allParkParkingings.get(i);
+			stringBuilder.append("{\"x\":");
+			stringBuilder.append(parking.getLatitude());
+			stringBuilder.append(",\"y\":");
+			stringBuilder.append(parking.getLongitude());
+			stringBuilder.append(",\"text\":");
+			stringBuilder.append("\"");
+			stringBuilder.append(parking.getDescription());
+			stringBuilder.append("\"");
+			stringBuilder.append("}");
+			if (i < allParkParkingings.size() - 1) {
+				stringBuilder.append(",");
+			}
+		}
+		stringBuilder.append("]");
+
+		return stringBuilder.toString();
 	}
 }
