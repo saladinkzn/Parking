@@ -20,7 +20,7 @@ $(document)
 								title : $("input[name=name]").val()
 						});
             $("input[name=name]").change(function(){
-                   //TODO удаление маркера   
+                   //TODO изменение подписи маркера 
             });
             google.maps.event.addListener(marker, 'click', function(event){
                   //TODO удаление маркера
