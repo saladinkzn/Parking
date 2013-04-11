@@ -8,8 +8,12 @@ $(document)
 					};
 					var map = new google.maps.Map(document
 							.getElementById("map-canvas"), mapOptions);
+          google.maps.Map.prototype.markers = new Array();
           google.maps.event.addListener(map, 'click', function(event) {
-            //TODO удалить все маркеры(в теории только один), которые уже есть на карте
+            for(var i = 0; i<map.markers.length; i++)         //удаляем все предыдущие маркеры (один, в теории)
+            {
+                map.markers[i].setMap(null);
+            }
             var xy = event.latLng;
             $("input[name=latitude]").val(xy.jb);   //пишем в инпуты координаты
             $("input[name=longitude]").val(xy.kb);
@@ -19,11 +23,13 @@ $(document)
 								map : map,
 								title : $("input[name=name]").val()
 						});
-            $("input[name=name]").change(function(){
-                   //TODO изменение подписи маркера 
+            map.markers.push(marker);
+            $("input[name=name]").change(function(){ // при изменении значения поля ввода имени
+                marker.setTitle($(this).val());    // меняем подпись маркера    
             });
-            google.maps.event.addListener(marker, 'click', function(event){
-                  //TODO удаление маркера
+            google.maps.event.addListener(marker, 'click', function(event){   // удаляем маркер при клике по нему
+                marker.setMap(null);
+                map.clearOverlays();
             });
           }); 
         }

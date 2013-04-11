@@ -26,13 +26,21 @@
 		}
 		
 		#map-canvas {
-			height: 100%
+			height: 100%;
+			width: 65%;
+			float: left;
+		}
+		#input {
+			position: relative;
+			top: 20%;
+			right: 2.5%;
+			float: right;
 		}
 		</style>
 	</head>
 	<body>
 		<div id="map-canvas"></div>
-		<div>
+		<div id="input">
 			<form action="/add"  method="post">
 				<h3>Добавление парковки</h3>
 				<p>
