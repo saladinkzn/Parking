@@ -51,6 +51,50 @@ public class IndexController {
 		return "index";
 	}
 
+	@RequestMapping("/ad1")
+	public String add1(HttpServletRequest request) {
+		// Получаем список парковок
+		UserService userService = UserServiceFactory.getUserService();
+		if (request.getUserPrincipal() != null) {
+			boolean adminUser = userService.isUserAdmin();
+			if (adminUser) {
+				final List<Parking> allParkings = parkingRepository
+						.getAllNotModerated();
+				// Передаем его на view.
+				request.setAttribute("parkings", allParkings);
+				// Передаем управление на index.jsp
+				return "ad1";
+			} else
+				return index(request);
+		} else {
+			return "redirect:" + (userService.createLoginURL("/ad1"));
+		}
+	}
+	
+	/**
+	 * Метод-обработчик формы
+	 * 
+	 * @RequestMapping: value - /add - значит что данный метод обрабатывает
+	 *                  запрос по адресу /add
+	 * 
+	 * @param address
+	 *            - тк этот параметр помечен аннотацией @RequestParam, то в него
+	 *            будет передано значение из поля name формы
+	 * @return строка - название view без расширения.
+	 */
+	@RequestMapping(value="/ad1", method=RequestMethod.POST)
+	public String addd1(HttpServletRequest request, @RequestParam("id") Long id) {
+		parkingRepository.deleteParking(parkingRepository.getById(id));
+		return "redirect:/ad1";
+
+	}
+	@RequestMapping(value="ad2", method=RequestMethod.POST)
+	public String addd2(HttpServletRequest request, @RequestParam("id") Long id) {
+		parkingRepository.setModerated(parkingRepository.getById(id));
+		return "redirect:/ad1";
+
+	}
+
 	/**
 	 * Метод-обработчик формы
 	 * 
