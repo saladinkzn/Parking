@@ -13,11 +13,11 @@ $(document)
             for(var i = 0; i<map.markers.length; i++)         //удаляем все предыдущие маркеры (один, в теории)
             {
                 map.markers[i].setMap(null);
+                map.markers.pop();
             }
             var xy = event.latLng;
             $("input[name=latitude]").val(xy.jb);   //пишем в инпуты координаты
             $("input[name=longitude]").val(xy.kb);
-            console.log(xy.jb + ' ' + xy.kb);
             var marker = new google.maps.Marker({    //создаём маркер на карте
 								position : xy,
 								map : map,
